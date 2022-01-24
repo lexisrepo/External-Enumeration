@@ -188,6 +188,8 @@ hydra -L user.txt -P pass.txt 10.0.0.1 rdp
 ncrack -vv --user administrator -P passwords.txt rdp://10.0.0.1,CL=1
 ```
 #### Remote Desktop
+```
 rdesktop 10.0.0.1
 rdesktop -u <username> <IP>
 rdesktop -d <domain> -u <username> -p <password> <IP>
+```
