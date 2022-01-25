@@ -82,7 +82,7 @@ rpcclient -U "" 10.0.0.1
 enum4linux -a 10.0.0.1
 ```
 
-#### List nmap scripts - Detection vuln port 445 139
+#### List nmap scripts - Detection vuln port 445,139
 ```
 nmap -p 445,139 -Pn --script=smb-vuln-*.nse 10.0.0.1
 nmap -p 445,139 -Pn --script smb-protocols.nse 10.0.0.1
@@ -126,7 +126,7 @@ If the following error appear "protocol negotiation failed : NT_STATUS_CONNECTIO
 Solution: Intercept the trafic of the command ‘smbclient -L \\<IP> with wireshark and search the negotiation of the smb version.
 ```
 
-#### Access through through the kali folder
+#### Access through the kali folder
 ```
 smb://<ip>/<folder>
 ```
