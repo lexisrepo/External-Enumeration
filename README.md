@@ -47,6 +47,19 @@ nmap -p 21 -sV -sC --script="ftp-vuln-*, ftp-anon" 10.0.0.1-254
 hydra -s 21 -t 4 -l admin -P /usr/share/wordlists/rockyou.txt 10.0.0.1 ftp
 ```
 
+#### Basic Connection and FTP commands
+```
+\\Connection
+ftp 10.0.0.1 21
+
+\\Upload a file (from the folder where the shell has been started)
+binary
+put <filename>
+
+\\Download a file (to the folder where the shell has been started)
+binary
+get <filename>
+```
 
 ## Port 22
 #### Hydra - Bruteforcing
