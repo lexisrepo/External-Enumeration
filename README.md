@@ -4,7 +4,7 @@
 
 #### Silent mode
 ```
-nmap -T4 -sS -sV -vv -Pn -p<PORT> <IP>
+nmap -sS -sV -vv -Pn -p<PORT> <IP>
 ```
 #### Agressive mode
 ```
