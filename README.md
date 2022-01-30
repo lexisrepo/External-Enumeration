@@ -84,6 +84,7 @@ VRFY {username}
 
 ➤ Valid username
 252 2.0.0 useradm
+
 ➤ Invalid username
 550 5.1.1 <admin>: Recipient address rejected:User unknown in local recipient table
 ```
