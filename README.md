@@ -69,6 +69,24 @@ hydra -s 22 -v -t 4 -l root -P /usr/share/wordlists/rockyou.txt 10.0.0.1 ssh
 
 
 ## Port 25
+#### Basic connection
+```
+telnet 10.0.0.1 25
+Trying 10.0.0.1
+Connected to 10.0.0.1.
+Escape character is '^]'.
+220 mail.local ESMTP Postfix (Debian/GNU)
+```
+
+#### Manual user enumeration
+```
+VRFY {username}
+
+➤ Valid username
+252 2.0.0 useradm
+➤ Invalid username
+550 5.1.1 <admin>: Recipient address rejected:User unknown in local recipient table
+```
 
 ## Port 80
 ```
