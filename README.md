@@ -183,8 +183,11 @@ hydra -L username.txt -P password.txt 10.0.0.1 smb -V
 ➤ Anonymous connection attempt (-x). With the example test.com : DOMAIN = test and DOMAIN2 = com
 ldapsearch -h 10.129.136.235 -p 389 -x -b "dc=htb,dc=local"   
 
-➤ Enumeration all AD users
+➤ Enumerate all AD users
 ./windapsearch.py -d test.com --dc-ip 10.0.0.1 -U
+
+➤ Enumerate all objects in the domain
+./windapsearch.py -d test.com --dc-ip 10.0.0.1 --custom "objectClass=*" 
 ```
 
 #### With user account
