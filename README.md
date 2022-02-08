@@ -267,4 +267,7 @@ https://github.com/Hackplayers/evil-winrm
 
 ```
 ruby evil-winrm.rb -i <IP> -u <USERNAME> -p <PASSWORD>
+OR
+gem evil-winrm
+evil-winrm -i <IP> -u <USERNAME> -p <PASSWORD>
 ```
