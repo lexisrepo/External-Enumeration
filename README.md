@@ -187,6 +187,7 @@ hydra -L username.txt -P password.txt 10.0.0.1 smb -V
 ldapsearch -h 10.129.136.235 -p 389 -x -b "dc=htb,dc=local"   
 
 ➤ Enumerate all AD users
+https://github.com/ropnop/windapsearch
 ./windapsearch.py -d test.com --dc-ip 10.0.0.1 -U
 
 ➤ Enumerate all objects in the domain
