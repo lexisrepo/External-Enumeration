@@ -258,8 +258,10 @@ rdesktop -d <domain> -u <username> -p <password> <IP>
 
 ## Port 5985
 
-#### login remotely over WinRM
-Using a TGT ticket as example
+#### login remotely over WinRM (using TGT ticket as example)
+
+https://github.com/Hackplayers/evil-winrm
+
 ```
 ruby evil-winrm.rb -i <IP> -u <USERNAME> -p <PASSWORD>
 ```
