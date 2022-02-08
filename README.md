@@ -197,7 +197,7 @@ The service alfresco needs Kerberos pre-authentication to be disabled. This mean
 ➤ Request a TGT ticket
 ./GetNPUsers.py DOMAIN/USERNAME -dc-ip <IP> -no-pass
 
-Crack the obtained TGT ticket then used is again port 5985 using evil-winrm
+➤ Next steps: Crack the obtained TGT ticket then used is again port 5985 using evil-winrm
 ```
 
 #### With user account
