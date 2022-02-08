@@ -155,7 +155,7 @@ smbmap -H 10.10.0.1 --download '.\Users\SVC_TGS\Desktop\user.txt'
 smbmap -H 10.0.0.1 -R -u ‘123’
 ```
 
-#### Detection of the version using Wireshark
+#### Detection of the SMB version using Wireshark
 ```
 If the following error appear "protocol negotiation failed : NT_STATUS_CONNECTION_DISCONNECTED", it's probably due to the old smb version of the victim.
 Solution: Intercept the trafic of the command ‘smbclient -L \\<IP> with wireshark and search the negotiation of the smb version.
