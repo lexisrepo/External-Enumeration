@@ -181,6 +181,9 @@ hydra -L username.txt -P password.txt 10.0.0.1 smb -V
 ```
 crackmapexec smb <IP> -d <DOMAIN> -u users.txt -p 'PASSWORD'
 → EX: crackmapexec smb 10.0.0.1 -d frabricorp -u users.txt -p '123Soleil'
+
+STATUS_PASSWORD_MUST_CHANGE : correct password but has expired and needs to be changed before logging in
+STATUS_LOGIN_FAILURE : incorrect password
 ```
 
 
