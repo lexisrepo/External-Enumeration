@@ -216,6 +216,9 @@ ldapsearch -x -h <IP> -p <PORT> -D 'USERNAME' -w 'PASSWORD' -b "dc=DOMAIN,dc=DOM
 OR
 ./GetADUsers.py -all DOMAIN/USERNAME -dc-ip <IP>
 → EX: ./GetADUsers.py -all domain.com/svc_tgs -dc-ip 10.0.0.1
+OR
+windapsearch.py -u "DOMAIN\USERNAME" --dc-ip <IP> -U
+→ EX: ./windapsearch.py -u "FABRICORP\harry" --dc-ip 10.10.10.193 -U
 
 ➤ Verify if a SPN exist
 ldapsearch -x -h 10.0.0.1 -p 389 -D 'SVC_TGS' -w'password' -b "dc=domain,dc=com" -s sub"(&(objectCategory=person)(objectClass=user)(!(useraccountcontrol:1.2.840.113556.1.4.803:=2))(serviceprincipalname=*/*))" serviceprincipalname | grep -B 1 servicePrincipalName
