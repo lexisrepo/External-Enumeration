@@ -67,6 +67,11 @@ get <filename>
 hydra -s 22 -v -t 4 -l root -P /usr/share/wordlists/rockyou.txt 10.0.0.1 ssh
 ```
 
+#### SSH connection
+```
+ssh lexis@10.0.0.1
+ssh lexis@10.0.0.1 -oKexAlgorithms=+diffie-hellman-group1-sha1
+```
 
 ## Port 25
 #### Basic connection
