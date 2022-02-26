@@ -73,6 +73,25 @@ ssh lexis@10.0.0.1
 ssh lexis@10.0.0.1 -oKexAlgorithms=+diffie-hellman-group1-sha1
 ```
 
+#### SSH connection error
+```
+ssh lexis@10.0.0.1
+lexis@10.0.0.1's password:
+Last login: Thu Feb 24 08:42:29 2022 from 192.168.1.1
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@                      E R R O R                      @
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+The .bash_profile file for the server you are attempting to
+connect to has encountered an error. This could mean that
+your access has been disabled. Please contact a system
+administrator to restore your access to this server.
+Connection  to 10.0.0.1
+
+ssh -t lexis@10.0.0.1 /bin/sh
+lexis@10.0.0.1's password:
+sh-05$
+```
+
 ## Port 25
 #### Basic connection
 ```
